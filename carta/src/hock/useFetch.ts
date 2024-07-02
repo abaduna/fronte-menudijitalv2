@@ -7,11 +7,13 @@ export const useFetch = () => {
     try {
       const formData = new FormData();
 
-      formData.append("title", datos.title);
+      formData.append("name", datos.title);
       formData.append("price", datos.price);
-      formData.append("imageUpLoading", datos.imageUpLoading);
-      formData.append("category", datos.category);
-      await API.post("api/menu", formData, {
+      formData.append("stock", datos.stock);
+      formData.append("description", "description");
+      formData.append("file", datos.imageUpLoading);
+      formData.append("category", "perfumes");
+      await API.post("api/food", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -23,7 +25,7 @@ export const useFetch = () => {
   };
   const deletID = async (id: string) => {
     try {
-      await API.delete(`api/menu/${id}`);
+      await API.delete(`api/food/${id}`);
     } catch (error) {
       console.log(`algo salio en en  fetchPost`, error);
     }
@@ -38,7 +40,7 @@ export const useFetch = () => {
   };
   const getDataForid = async (id: string) => {
     try {
-      const data = await API.get(`api/menuporid/${id}`);
+      const data = await API.get(`api/food/${id}`);
       console.log(data);
       
       return data;
@@ -48,11 +50,42 @@ export const useFetch = () => {
   }; ///menu/:id
   const upDateID = async (id: string, food: food) => {
     try {
-      const data = await API.put(`api/menu/${id}`, food);
+      const data = await API.put(`api/food/${id}`, food);
       return data;
     } catch (error) {
-      console.log(`algo salio en en  getDataForid`, error);
+      console.log(`algo salio en en  upDateID`, error);
     }
   };
-  return { fetchPost, deletID, getData, getDataForid, upDateID };
+  const post =async(email:string,password:string,endpoint:string)=>{
+    try {
+   const token = await API.post(endpoint, {
+      email,
+        password
+      });
+      console.error('token', token)
+      localStorage.setItem("token",token.data)
+    } catch (error) {
+      console.log(`algo salio en en  post`, error);
+    }
+  }
+  const postOrdenes = async(data:any,endpoint:string)=>{
+    console.error( data)
+    
+    
+    try {
+     const res= await API.post(endpoint,  data, {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  });
+        console.log('res', res)
+    } catch (error) {
+      console.error(`algo salio en en  postOrdenes`, error);
+    }
+  }
+  const put = async(food:any,endpoint:string)=>{
+     const res:String =await API.put(endpoint,food)
+      console.log('res', res)
+  }
+  return { fetchPost, deletID, getData, getDataForid, upDateID,post ,put,postOrdenes};
 };

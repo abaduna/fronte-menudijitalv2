@@ -14,7 +14,7 @@ export interface bodyProps {
   imageUpLoading: File | string;
   updata?: boolean;
   setUpdate?: any;
-  category: string;
+  stock: string;
   fetchFoodsData?: () => Promise<void>;
 }
 function Admin() {
@@ -25,20 +25,17 @@ function Admin() {
 
   useEffect(() => {
     const verificar = () => {
-      const user = localStorage.getItem("user");
-      if (user !== "abaduna") {
+      const token = localStorage.getItem("token");
+      if (token == null) {
         router.push("/login");
       }
-      const pasword = localStorage.getItem("password");
-      if (pasword !== "1234") {
-        router.push("/login");
-      }
+      
     };
     verificar();
     const fetchFoodsData = async () => {
       console.log(`fetchFoodsData`);
 
-      const response = await getData("api/menu");
+      const response = await getData("api/food");
       if (response) {
         setFoods(response.data);
         console.log(response.data);

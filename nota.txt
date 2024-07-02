@@ -22,3 +22,9 @@ suspense preguntar a lisansdro
 
 optativo
  eliminar tanbien en la carpeta la foto
+
+
+ __
+ repo que apunta
+ origin  https://github.com/abaduna/carta-carrito-wh.git (fetch)
+origin  https://github.com/abaduna/carta-carrito-wh.git (push)

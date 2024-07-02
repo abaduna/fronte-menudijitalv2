@@ -11,9 +11,9 @@ import Skeleton from "react-loading-skeleton";
 import { SkeletonHome } from "@/componets/SkeletonHome";
 import ComponetCarrito from "@/componets/ComponetCarrito";
 export interface Menu {
-  title: string;
+  name: string;
   price: number;
-  url_imagen: string;
+  link_img: string;
   id?: string;
   category: string;
   setCarrito?: Function;
@@ -48,14 +48,8 @@ export default function Home() {
     getDataFoods();
   }, [endpoint]);
 
-  const handlerCategoryHamburgesa = () => {
-    setEndpoint("api/menu?category=hanburgesa");
-    setShow(true);
-  };
-  const handlerCategoryBottles = () => {
-    setEndpoint("api/menu?category=botellas");
-    setShow(true);
-  };
+  
+  
 
   const handleSerchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,27 +58,21 @@ export default function Home() {
   };
   useEffect(() => {
     const sendCategory = async () => {
-      const bottle = await getData("api/menu?category=botellas");
+      const bottle = await getData("api/food");
       if (typeof bottle !== "undefined") {
         setBottle(bottle.data);
-        console.log(bottle.data);
+        console.error(bottle.data);
       } else {
         console.log(`undefind`);
       }
-      const hamburger = await getData("api/menu?category=hanburgesa");
-      if (typeof hamburger !== "undefined") {
-        setHamburger(hamburger.data);
-        console.log(hamburger.data);
-      } else {
-        console.log(`undefind`);
-      }
+     
     };
     sendCategory();
   }, []);
   const removeProduct=(product:Menu)=>{
     
     setCarrito((prev: Menu[]) =>
-      prev.filter((item: Menu) => item.title !== product.title)
+      prev.filter((item: Menu) => item.name !== product.name)
     );
   }
   
@@ -111,32 +99,19 @@ export default function Home() {
           </button>
         </div>
       </form>
-      <div className={styles.categoiesBtns}>
-        <button
-          className={styles.categoryButton}
-          onClick={handlerCategoryHamburgesa}
-        >
-          {" "}
-          <FontAwesomeIcon icon={faBurger} style={{ fontSize: "25px" }} />
-        </button>
-        <button
-          className={styles.categoryButton}
-          onClick={handlerCategoryBottles}
-        >
-          {" "}
-          <FontAwesomeIcon icon={faBottleWater} style={{ fontSize: "25px" }} />
-        </button>
-      </div>
+     
       <ComponetCarrito carrito={carrito} />
       {show ? (
         <>
           <div className={styles.fooditem}>
             {foods.length > 0 &&
-              foods?.map((food: Menu) => (
+              foods?.map((food:any) => (
                 <Suspense key={food.id} fallback={<SkeletonHome />}>
                   <ComponetFood
                     setCarrito={setCarrito}
                     removeProduct={removeProduct}
+                 
+                    
                     {...food}
                   ></ComponetFood>
                 </Suspense>
@@ -145,8 +120,8 @@ export default function Home() {
         </>
       ) : (
         <>
-          <p className={styles.categoryTitle}>Categoria</p>
-          <p className={styles.categoryBottle}>Botellas</p>
+
+          {/* <p className={styles.categoryBottle}>Botellas</p> */}
           <div className={styles.fooditem}>
             {bottle.length > 0 &&
               bottle?.map((food: Menu) => (
@@ -154,25 +129,13 @@ export default function Home() {
                   <ComponetFood
                     setCarrito={setCarrito}
                     removeProduct={removeProduct}
+
                     {...food}
                   ></ComponetFood>
                 </Suspense>
               ))}
           </div>
-          <p className={styles.categoryHanburger}>Hamburgesa </p>
-          <div className={styles.fooditem}>
-            {hamburger.length > 0 &&
-              hamburger?.map((food: Menu) => (
-                <Suspense key={food.id} fallback={<SkeletonHome />}>
-                  <ComponetFood
-                    setCarrito={setCarrito}
-                    removeProduct={removeProduct}
-                    key={food.id}
-                    {...food}
-                  ></ComponetFood>
-                </Suspense>
-              ))}
-          </div>
+          
         </>
       )}
     </div>

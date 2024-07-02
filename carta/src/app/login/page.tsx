@@ -1,5 +1,6 @@
 "use client";
 
+import { useFetch } from "@/hock/useFetch";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -8,17 +9,17 @@ interface Props {}
 function LoginPages({}: Props) {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { post } = useFetch();
   const router = useRouter();
 
-  const sendLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendLogin =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    localStorage.setItem("user", user);
-    localStorage.setItem("password", password);
-    if (user === "abaduna") {
-      if (password === "1234") {
-        router.push("/admin");
-      }
-    }
+    const response = await post(user, password, "api/auth/login");
+
+  
+   router.push("/admin");
+      
+    
   };
   return (
     <form onSubmit={sendLogin}>

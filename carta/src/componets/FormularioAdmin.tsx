@@ -12,9 +12,9 @@ interface FormProps {
 
 function FormularioAdmin({ setUpdate, updata }: FormProps) {
   const [title, setTitle] = useState<string>("");
-  const [price, setPrice] = useState<string>(""); //imageUpLoading
+  const [price, setPrice] = useState<string>("");
+  const [stock, setStock] = useState<string>("");
   const [imageUpLoading, setImageUpLoading] = useState<File | string>("");
-  const [category, setCategory] = useState<string>("");
   const [message, setMessage] = useState<boolean>(false);
   const { fetchPost } = useFetch();
   const sendData = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,7 +23,7 @@ function FormularioAdmin({ setUpdate, updata }: FormProps) {
       title,
       price,
       imageUpLoading,
-      category,
+      stock,
     };
     fetchPost(data);
     actionPath();
@@ -63,20 +63,21 @@ function FormularioAdmin({ setUpdate, updata }: FormProps) {
             name="price"
             required
           />
+          <label>Sotck:</label>
+          <input
+            type="number"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
+            name="price"
+            required
+          />
         </div>
         <div>
           <label>Imagen:</label>
           <input type="file" onChange={handleImageChange} required />
         </div>
         <div>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Selecciona una categoria</option>
-            <option value="hanburgesa">Hamburguesa</option>
-            <option value="botellas">Botellas</option>
-          </select>
+         
         </div>
         <button className={styles.btn} type="submit">Enviar</button>
       </div>

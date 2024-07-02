@@ -14,31 +14,28 @@ interface paramsProps {
 export interface food {
   id?: string;
   price?: number;
-  title?: string;
-  url_imagen?: string;
+  name?: string;
+  category?:string;
+  description?:string;
+  stock?:string;
 }
 const FormAdmin = ({ params }: paramsProps) => {
   const { getDataForid, upDateID } = useFetch();
   const [food, setFood] = useState<food>();
   const [successful, setSuccessful] = useState<boolean>(false);
+  const [description , setDescription ] = useState<string>("");
+  const [stock , setStock ] = useState<number>(0);
   const router = useRouter();
   useEffect(() => {
     const verificar = () => {
-      const user = localStorage.getItem("user");
-      if (user !== "abaduna") {
-        router.push("/login");
-      }
-      const pasword = localStorage.getItem("password");
-      if (pasword !== "1234") {
-        router.push("/login");
-      }
+     
     };
     verificar();
     const fetchFoodData = async () => {
       const response = await getDataForid(params.id);
       if (response) {
-        setFood(response.data[0]);
-        console.log(response.data);
+        setFood(response.data);
+        console.log(response);
         console.log(food);
       }
     };
@@ -48,6 +45,7 @@ const FormAdmin = ({ params }: paramsProps) => {
   const updateform = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      
       upDateID(params.id, food as food);
       actionPath;
       setSuccessful(true);
@@ -62,15 +60,29 @@ const FormAdmin = ({ params }: paramsProps) => {
   const updateTitle = (newTitle: string) => {
     setFood((prevFood) => ({
       ...prevFood,
-      title: newTitle,
+      name: newTitle,
     }));
   };
   const updatePrice = (newPrice: string) => {
     setFood((prevFood) => ({
       ...prevFood,
       price: +newPrice,
-    }));
-  };
+    }));  }
+    const updateDescription = (newPrice: string) => {
+      setFood((prevFood) => ({
+        ...prevFood,
+        description: newPrice,
+      }));
+    }
+    const updateStock = (newPrice: string) => {
+      setFood((prevFood) => ({
+        ...prevFood,
+        stock: newPrice,
+      }));
+    }
+
+  
+
   return (
     <div>
       {successful && <span>Modificacion exitosa</span>}
@@ -78,8 +90,15 @@ const FormAdmin = ({ params }: paramsProps) => {
         {food && (
           <input
           className={styles.input}
-            value={food.title}
+            value={food.name}
             onChange={(e) => updateTitle(e.target.value)}
+          />
+        )}
+        {food && (
+          <input
+          className={styles.input}
+            value={food.description}
+            onChange={(e) => updateDescription(e.target.value)}
           />
         )}
         {food && (
@@ -90,7 +109,15 @@ const FormAdmin = ({ params }: paramsProps) => {
             onChange={(e) => updatePrice(e.target.value)}
           />
         )}
-        {food && <img src={food.url_imagen} alt={food.title} />}
+       {food && (
+          <input
+          className={styles.input}
+            type="number"
+            value={food.stock}
+            onChange={(e) => updateStock(e.target.value)}
+          />
+        )}
+      
         <button  className={styles.btn} type="submit">Actualizar</button>
       </form>
     </div>

@@ -8,7 +8,7 @@ function ComponetCarrito({ carrito }: ComponetCarritoProps) {
     const total: number = carrito.reduce((acc, producto) => acc + parseFloat(String(producto.price)), 0);
   
 
-  const titulos = carrito.map(producto => producto.title);
+  const titulos = carrito.map(producto => producto.name);
     console.log(titulos);
   const carritoTitleString = titulos.join(','); 
   console.log(carritoTitleString);
