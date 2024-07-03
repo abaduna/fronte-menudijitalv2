@@ -24,7 +24,7 @@ export default function Home() {
   // const data = await getUser();
   const [serch, setSerch] = useState<string>("");
   const [foods, setFoods] = useState<Menu[]>([]);
-  const [endpoint, setEndpoint] = useState<string>("api/menu");
+  const [endpoint, setEndpoint] = useState<string>("api/food/serch/");
   const [hamburger, setHamburger] = useState<Menu[]>([]);
   const [bottle, setBottle] = useState<Menu[]>([]);
   const [show, setShow] = useState<boolean>(false);
@@ -54,7 +54,7 @@ export default function Home() {
   const handleSerchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShow(true);
-    setEndpoint(`api/menu/${serch}`);
+    setEndpoint(`api/food/serch/${serch}`);
   };
   useEffect(() => {
     const sendCategory = async () => {

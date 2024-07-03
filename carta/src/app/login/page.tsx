@@ -3,7 +3,7 @@
 import { useFetch } from "@/hock/useFetch";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import styles from './LoginForm.module.css';
 interface Props {}
 
 function LoginPages({}: Props) {
@@ -22,28 +22,29 @@ function LoginPages({}: Props) {
     
   };
   return (
-    <form onSubmit={sendLogin}>
-      <div>
+    <form onSubmit={sendLogin} className={styles.loginForm}>
+      <div className={styles.inputContainer}>
         <input
           placeholder="usuario"
           type="text"
           value={user}
           onChange={(e) => setUser(e.target.value)}
           required
+          className={styles.inputField}
         />
       </div>
-      <div>
+      <div className={styles.inputContainer}>
         <input
           placeholder="contraseña"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          name="price"
+          name="password"
           required
+          className={styles.inputField}
         />
       </div>
-
-      <button type="submit">Enviar</button>
+      <button type="submit" className={styles.submitButton}>Enviar</button>
     </form>
   );
 }
