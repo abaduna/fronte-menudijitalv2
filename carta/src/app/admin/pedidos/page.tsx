@@ -1,40 +1,89 @@
-"use client"
+"use client";
 import { useFetch } from "@/hock/useFetch";
-import  { useEffect, useState } from "react";
-
-interface ordenes{
-    id:number,
-    id_orden:number,
-    tableNumber :number,
-    dateTime: String,
-    estados: String
+import { useEffect, useState } from "react";
+import Modal from "@/componets/modal";
+import { Button } from "react-bootstrap";
+export interface ordenes {
+  id: number;
+  id_orden: number;
+  tableNumber: number;
+  dateTime: String;
+  estados: String;
 }
 
 export default function Page() {
-  const { getData } = useFetch();
-  const [ordenes,setOrdenes] = useState<ordenes[]>([])
+  const { getData, postOrdenes } = useFetch();
+  const [ordenes, setOrdenes] = useState<ordenes[]>([]);
+  const [id_orden, setId_orden] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [idOrdenes, setIdOrden] = useState<bigint[]>([]);
+  const getDatas = async () => {
+    const res = await getData(`api/ordenes`);
+    if (res) {
+      setOrdenes(res.data);
+    }
+  };
   useEffect(() => {
-    const getDatas = async () => {
-      const res = await getData(`api/ordenes`);
-      if (res) {
-        setOrdenes(res.data)
-      }
-      
-    };
     getDatas();
   }, []);
-  const seePedido=()=>{
-    
-  }
+  useEffect(() => {
+    console.log(ordenes);
+  }, [ordenes]);
+  const seePedido = (id: number) => {
+    console.log("click");
+    setId_orden(id);
+    console.log("id", id);
+    setIsOpen(false);
+  };
+  const aceptPediddo = (id: number) => {
+    const postAceptar = async () => {
+      try {
+        await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+      } catch (error) {}
+    };
+    postAceptar();
+    getDatas();
+  };
   return (
     <>
+      <Modal
+        isOpen={isOpen}
+        id_orden={id_orden}
+        clouseModal={() => setIsOpen(true)}
+      ></Modal>
       <h1>pedidos</h1>
-      {ordenes.length > 0 && ordenes.map(orden=>(
-        <div key={orden.id}>
-            <p>mesa numero: {orden.tableNumber} en el estado {orden.estados}</p>
-            <button onClick={seePedido}>Ver pedido</button>
-        </div>
-      ))}
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Numero de mesa</th>
+            <th scope="col">estado</th>
+            <th scope="col">Ver pedido</th>
+            <th scope="col">Aceptar pedido</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ordenes.length > 0 &&
+            ordenes.map((orden) => (
+              <tr key={orden.id}>
+                <td>{orden.tableNumber} </td>
+                <td> {orden.estados}</td>
+                <td>
+                  {" "}
+                  <button onClick={() => seePedido(orden.id_orden)}>
+                    Ver pedido
+                  </button>
+                </td>
+                <td>
+                  {" "}
+                  <button onClick={() => aceptPediddo(orden.id_orden)}>
+                    Aceptar
+                  </button>{" "}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   );
 }

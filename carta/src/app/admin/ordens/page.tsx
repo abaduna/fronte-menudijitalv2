@@ -18,6 +18,7 @@ const Page = () => {
   const [foods, setFoods] = useState<foodsPedidos[]>([]);
   const [ordenes, setOrdenes] = useState<ordenes[]>([]);
   const [table, settable] = useState<number>();
+ 
   const [serch, setSerch] = useState<string>("api/food");
   const { getData, postOrdenes } = useFetch();
 
