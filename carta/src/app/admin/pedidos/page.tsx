@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 export interface ordenes {
   id: number;
   id_orden: number;
-  tableNumber: number;
+  tableNumber: String;
   dateTime: String;
   estados: String;
 }
@@ -44,6 +44,14 @@ export default function Page() {
     postAceptar();
     getDatas();
   };
+  const formattedPhoneNumber = 5493413592493;
+  const mensaje = `Hola buen dia tu compra es aceptada\n
+  ____________\n
+gracias por comprar
+  `;
+  const whatsappLink = `https://api.whatsapp.com/send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
+    mensaje
+  )}`;
   return (
     <>
       <Modal
@@ -75,10 +83,21 @@ export default function Page() {
                   </button>
                 </td>
                 <td>
-                  {" "}
-                  <button onClick={() => aceptPediddo(orden.id_orden)}>
-                    Aceptar
-                  </button>{" "}
+                  {orden.tableNumber === "Pedido" && (
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => aceptPediddo(orden.id_orden)}
+                    >
+                      Aceptar
+                    </a>
+                  )}
+                  {orden.tableNumber !== "Pedido" && (
+                    <button onClick={() => aceptPediddo(orden.id_orden)}>
+                      Aceptar
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

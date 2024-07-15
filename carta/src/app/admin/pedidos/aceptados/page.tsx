@@ -9,19 +9,29 @@ type Props = {};
 const Page = (props: Props) => {
   const { getData } = useFetch();
   const [ordenes, serOrdenes] = useState<ordenes[]>([]);
+  const [dateSerch,setDateSerch] = useState<String>("null")
+
   useEffect(() => {
     const getDatos = async () => {
-      const { data } = await getData("api/ordenes/aceptados");
-      console.log("data", data);
+      if (dateSerch !== "null") {
+        console.error("ejecutado");
+        
+        const { data } = await getData(`api/ordenes/aceptados/serch/${dateSerch}`);
       serOrdenes(data);
+      console.error('dataN', data)
+      }else{
+        const { data } = await getData("api/ordenes/aceptados");
+      serOrdenes(data);
+      }
+      
     };
     getDatos();
-  }, []);
+  }, [dateSerch]);
   const token = localStorage.getItem("token");
   return (
     <>
       <h2>Pedidos terminados</h2>
-
+      <input type="date" onChange={e=>setDateSerch(e.target.value)} />
       <table className="table">
         <thead>
           <tr>

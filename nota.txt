@@ -28,3 +28,8 @@ optativo
  repo que apunta
  origin  https://github.com/abaduna/carta-carrito-wh.git (fetch)
 origin  https://github.com/abaduna/carta-carrito-wh.git (push)
+
+backend
+buscador por fecha hace un hql con = 2024-:%fecha%
+
+hacer que el whatsapp tenga lo que se pidio
