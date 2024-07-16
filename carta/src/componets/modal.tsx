@@ -56,7 +56,7 @@ const Modal = ({
           {ordenes.length > 0 &&
             ordenes.map((ordenes) => (
               <tr key={ordenes.id}>
-                <td>{ordenes.product}</td>
+                <td>{ordenes.name}</td>
                 <td>{ordenes.price}</td>
               </tr>
             ))}

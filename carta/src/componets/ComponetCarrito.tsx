@@ -27,6 +27,7 @@ let segundos = String(fecha.getSeconds()).padStart(2, '0');
 
 // Formatear la fecha en el formato deseado
 let fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+console.error('carrito', carrito)
     const data = {
       "dateTime": fechaFormateada,
       "table": "envio",

@@ -35,7 +35,7 @@ export default function Page() {
     console.log("id", id);
     setIsOpen(false);
   };
-  const aceptPediddo = (id: number) => {
+  const aceptPediddobtn = (id: number) => {
     const postAceptar = async () => {
       try {
         await postOrdenes({}, `api/ordenes/aceptados/${id}`);
@@ -44,14 +44,41 @@ export default function Page() {
     postAceptar();
     getDatas();
   };
-  const formattedPhoneNumber = 5493413592493;
-  const mensaje = `Hola buen dia tu compra es aceptada\n
+  const aceptPediddo = async (id: number) => {
+    const postAceptar = async () => {
+      try {
+        const res = await getData(`api/allordenes/${id}`);
+
+        let productosStr = "";
+        if (res) {
+          console.log("res.data", res.data);
+          const titulos = res.data.map((producto) => producto.name);
+          console.log("titulos", titulos);
+          productosStr = titulos.join(",");
+          console.log("productosStr", productosStr);
+        }
+        getDatas();
+        const formattedPhoneNumber = 5493413592493;
+        const mensaje = `Hola buen dia tu compra es aceptada\n
   ____________\n
+
+
+${productosStr}\n
 gracias por comprar
   `;
-  const whatsappLink = `https://api.whatsapp.com/send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
-    mensaje
-  )}`;
+        const whatsappLink = `https://api.whatsapp.com/send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
+          mensaje
+        )}`;
+        window.open(whatsappLink, "_blank");
+
+        await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    postAceptar();
+  };
+
   return (
     <>
       <Modal
@@ -84,14 +111,9 @@ gracias por comprar
                 </td>
                 <td>
                   {orden.tableNumber === "Pedido" && (
-                    <a
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => aceptPediddo(orden.id_orden)}
-                    >
+                    <button onClick={() => aceptPediddobtn(orden.id_orden)}>
                       Aceptar
-                    </a>
+                    </button>
                   )}
                   {orden.tableNumber !== "Pedido" && (
                     <button onClick={() => aceptPediddo(orden.id_orden)}>
