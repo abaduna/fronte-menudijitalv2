@@ -45,7 +45,7 @@ console.error('carrito', carrito)
           Cantidad de elementos comprados <span>{carrito.length}</span>{" "}
         </h5>
       )}
-      {carrito.length > 0 && <button onClick={updata}>Finalizar compra</button>}
+      {carrito.length > 0 && <button  onClick={updata}>Finalizar compra</button>}
       {modal &&<div className={syledCompone.modal}>
           <div className="modal-dialog">
             <div className="modal-content">

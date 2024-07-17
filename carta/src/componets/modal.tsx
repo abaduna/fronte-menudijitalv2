@@ -8,7 +8,7 @@ import { useFetch } from "@/hock/useFetch";
 interface pedidos {
   id: number;
   id_orden: number;
-  product: String;
+  name: String;
   price: number;
 }
 const Modal = ({
