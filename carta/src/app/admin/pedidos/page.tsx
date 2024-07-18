@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "@/componets/modal";
 import { Button } from "react-bootstrap";
 import ReactDOM from "react-dom";
-import ComponentFactura from "@/componets/componentFactura";
+
 import printInvoice from "@/componets/printInvoice";
+
 export interface ordenes {
   id: number;
   id_orden: number;
@@ -44,7 +45,7 @@ export default function Page() {
         await postOrdenes({}, `api/ordenes/aceptados/${id}`);
       } catch (error) {}
     };
-    print()
+    print();
     postAceptar();
     getDatas();
   };
@@ -75,42 +76,16 @@ gracias por comprar
         )}`;
         await postOrdenes({}, `api/ordenes/aceptados/${id}`);
         window.open(whatsappLink, "_blank");
-
-        
       } catch (error) {
         console.log("error", error);
       }
     };
-    print()
+    print();
     getDatas();
     postAceptar();
   };
- const componentRef = useRef(); 
-const print =()=>{
-  const handlerPrint = useReactToPrint({
-    documentTitle: `COMANDA -`,
-    
-    content: () => componentRef.current,
-    bodyClass: 'container',
-    trigger: async (event) => {
-      console.log(event);
-    },
-    suppressErrors: true,
-    pageStyle: 'width: 100vw',
-    removeAfterPrint: true,
-    copyStyles: true,
-    onAfterPrint: (event) => {
-      setReporte("");
-      swal("Reporte creado", "El reporte fue creado satisfactoriamente!", "success");
-      axios.post('/securityLog', {
-        action: `Usuario exportó un reporte de textiles con código: "${fields.codigo}".`,
-        author: authorMail
-      });
-    }
-  });
-  
-  
-}
+  const componentRef = useRef();
+  const print = () => {};
   return (
     <>
       <Modal
