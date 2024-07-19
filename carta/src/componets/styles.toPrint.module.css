@@ -1,0 +1,13 @@
+.print{
+    display: none;
+}
+
+@media print {
+    .oculto-en-pantalla {
+      display: none;
+    }
+    
+    .print {
+      display: block;
+    }
+  }

@@ -10,7 +10,7 @@ export interface foodsPedidos {
 }
 
 export interface ordenes {
-  product: string;
+  name: string;
   price: number;
 }
 
@@ -59,7 +59,7 @@ const Page = () => {
   };
   const saveOrdenes = (food: ordenes) => {
     const foodnew = {
-      product: food.product,
+      name: food.name,
       price: food.price,
     };
     setOrdenes((prev) => [...prev, foodnew]);
@@ -71,7 +71,7 @@ const Page = () => {
     console.log("click");
     const id_orden = new Date().getTime();
     const newOrder: ordenes = {
-      product: food.name,
+      name: food.name,
       price: food.price,
     };
     saveOrdenes(newOrder);

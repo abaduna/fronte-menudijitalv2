@@ -6,6 +6,9 @@ import { Button } from "react-bootstrap";
 import ReactDOM from "react-dom";
 
 import printInvoice from "@/componets/printInvoice";
+import Print from "@/componets/print";
+import { Productos } from "@/typs/typs";
+import { useReactToPrint } from "react-to-print";
 
 export interface ordenes {
   id: number;
@@ -13,6 +16,8 @@ export interface ordenes {
   tableNumber: String;
   dateTime: String;
   estados: String;
+  phone:number
+  address:string
 }
 
 export default function Page() {
@@ -21,31 +26,35 @@ export default function Page() {
   const [id_orden, setId_orden] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [idOrdenes, setIdOrden] = useState<bigint[]>([]);
+  const [productos,setProductos] = useState<Productos[]>([])
   const getDatas = async () => {
     const res = await getData(`api/ordenes`);
     if (res) {
       setOrdenes(res.data);
+      console.log('ordenes', ordenes)
     }
   };
   useEffect(() => {
     getDatas();
   }, []);
-  useEffect(() => {
-    console.log(ordenes);
-  }, [ordenes]);
+
   const seePedido = (id: number) => {
-    console.log("click");
     setId_orden(id);
-    console.log("id", id);
     setIsOpen(false);
   };
   const aceptPediddobtn = (id: number) => {
     const postAceptar = async () => {
       try {
-        await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+        const res = await getData(`api/allordenes/${id}`);
+        setProductos(res?.data)
+        console.log('productos', productos)
+        //await postOrdenes({}, `api/ordenes/aceptados/${id}`);
       } catch (error) {}
     };
-    print();
+    setTimeout(() => {
+      handlePrint()
+    }, 500);
+    
     postAceptar();
     getDatas();
   };
@@ -53,14 +62,14 @@ export default function Page() {
     const postAceptar = async () => {
       try {
         const res = await getData(`api/allordenes/${id}`);
-
+        setProductos(res?.data)
+        console.error('productos', productos)
         let productosStr = "";
         if (res) {
-          console.log("res.data", res.data);
-          const titulos = res.data.map((producto) => producto.name);
-          console.log("titulos", titulos);
+        
+          const titulos = productos.map((producto) => producto.name);
           productosStr = titulos.join(",");
-          console.log("productosStr", productosStr);
+          
         }
         getDatas();
         const formattedPhoneNumber = 5493413592493;
@@ -74,20 +83,26 @@ gracias por comprar
         const whatsappLink = `https://api.whatsapp.com/send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
           mensaje
         )}`;
-        await postOrdenes({}, `api/ordenes/aceptados/${id}`);
-        window.open(whatsappLink, "_blank");
+       // await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+       // window.open(whatsappLink, "_blank");
       } catch (error) {
         console.log("error", error);
       }
     };
-    print();
-    getDatas();
+
+    setTimeout(() => {
+      handlePrint()
+    }, 500);
     postAceptar();
   };
-  const componentRef = useRef();
-  const print = () => {};
+  useEffect(()=>{
+console.log('productos', productos)
+  },[productos])
+  const componentRef = useRef<HTMLDivElement | null>(null);
+  const handlePrint = useReactToPrint({content: () => componentRef.current});
   return (
     <>
+    
       <Modal
         isOpen={isOpen}
         id_orden={id_orden}
@@ -117,6 +132,7 @@ gracias por comprar
                   </button>
                 </td>
                 <td>
+                <Print  productos={productos} ordenes={orden} componentRef={componentRef}/>
                   {orden.tableNumber === "Pedido" && (
                     <button onClick={() => aceptPediddobtn(orden.id_orden)}>
                       Aceptar

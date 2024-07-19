@@ -33,6 +33,9 @@ if (!token) {
         <li className="nav-item">
           <a className="nav-link " ><Link href="/admin/pedidos/aceptados">Historial</Link></a>
         </li>
+        <li className="nav-item">
+          <a className="nav-link " ><Link href="/admin/pedidos/aceptados/grafico">Grafico</Link></a>
+        </li>
       </ul>
      
     </div>

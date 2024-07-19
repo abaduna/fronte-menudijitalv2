@@ -9,6 +9,7 @@ interface ComponetCarritoProps {
 function ComponetCarrito({ carrito }: ComponetCarritoProps) {
   const [modal, setModal] = useState<boolean>(false);
   const [phone,setPhone]=useState<Number>(0)
+  const [address,setAddress]=useState<String>("")
   const { postOrdenes } = useFetch();
   const updata = () => {
     setModal(true);
@@ -33,7 +34,8 @@ console.error('carrito', carrito)
       "table": "envio",
       "phone":phone,
       "ordenes":carrito,
-      "estados":"pedido"
+      "estados":"pedido",
+      "address":"d"
     }
     console.log("carrito", carrito);
     postOrdenes(data,"api/ordenes")
@@ -54,7 +56,8 @@ console.error('carrito', carrito)
               
               </div>
               <div className="modal-body">
-                <input placeholder="ingresa tu wh" onChange={e=>setPhone(+e.target.value)}/>
+                <input placeholder="ingresa tu telefono" onChange={e=>setPhone(+e.target.value)}/>
+                <input placeholder="ingresa tu direccion" onChange={e=>setAddress(e.target.value)}/>
               </div>
               <div className="modal-footer">
                 <button type="button" onClick={save} className="btn btn-primary">

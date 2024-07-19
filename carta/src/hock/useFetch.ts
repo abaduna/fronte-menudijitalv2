@@ -87,5 +87,13 @@ export const useFetch = () => {
      const res:String =await API.put(endpoint,food)
       console.log('res', res)
   }
-  return { fetchPost, deletID, getData, getDataForid, upDateID,post ,put,postOrdenes};
+  const getDataV2 = async (endpoint:string) => {
+    try {
+      const data = await API.get(endpoint);
+      return data;
+    } catch (error) {
+      console.log(`algo salio en mal  getData`, error);
+    }
+  };
+  return { fetchPost, deletID, getData, getDataForid, upDateID,post ,put,postOrdenes,getDataV2};
 };

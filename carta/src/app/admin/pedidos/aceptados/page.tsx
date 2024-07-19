@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ordenes } from "../page";
 import Navbar from "@/componets/navbar";
 import { Button } from "react-bootstrap";
+import Print from "@/componets/print";
 type Props = {};
 
 const Page = (props: Props) => {
@@ -30,6 +31,7 @@ const Page = (props: Props) => {
   const token = localStorage.getItem("token");
   return (
     <>
+    
       <h2>Pedidos terminados</h2>
       <input type="date" onChange={e=>setDateSerch(e.target.value)} />
       <table className="table">
