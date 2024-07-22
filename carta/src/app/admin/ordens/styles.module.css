@@ -27,15 +27,31 @@
   .button:hover {
     background-color: #005bb5;
   }
-  
-  .food-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    border-bottom: 1px solid #eee;
+  .button:active  {
+    background-color: #d9ff00;
   }
-  
+  .foodItem {
+    flex: 1 1 22%; /* Ajustar el ancho para que haya 4 elementos por fila (100% / 4 = 25%) */
+    min-width: 22%; /* Asegura que cada ítem tenga al menos el ancho deseado */
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: rgba(173, 216, 230, 0.452); /* Ajustar según necesidad */
+    text-align: center; /* Ajustar según necesidad */
+  }
+  @media (max-width: 768px) {
+    .foodItem {
+      flex: 1 1 100%; /* Cada ítem ocupará el 100% del ancho del contenedor */
+      min-width: 100%; /* Asegura que cada ítem tenga el ancho completo */
+    }
+  }
+  .food{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Ajustar según necesidad */
+    align-items: flex-start; /* Ajustar según necesidad */
+    gap: 10px; 
+    
+  }
   .food-item p {
     margin: 0;
   }

@@ -6,7 +6,7 @@ import { ComponentToPrint } from './ComponentToPrint';
 import { Productos } from '@/typs/typs';
 import { ordenes } from '@/app/admin/ordens/page';
 
-const Print = ({productos,ordenes,componentRef}:{productos:Productos[],ordenes:ordenes[],componentRef:any}) => {
+const Print = ({productos,ordenes,componentRef}:{productos:Productos[],ordenes:ordenes,componentRef:any}) => {
   //const componentRef = useRef<HTMLDivElement | null>(null);
 ///  const handlePrint = useReactToPrint({content: () => componentRef.current});
 

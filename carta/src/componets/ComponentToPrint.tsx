@@ -8,7 +8,7 @@ import styles from "../componets/styles.toPrint.module.css"
    
 interface ComponentToPrintProps {
     productos:Productos[]
-    ordenes:ordenes
+    ordenes:any
   }
  
   // eslint-disable-next-line react/display-name 
@@ -25,7 +25,7 @@ useEffect(()=>{
     
 },[productos])
     return (
-      <div ref={ref} className={styles.soloParaImprimir} >
+      <div ref={ref} className={styles.print} >
         
       mesa:  {ordenes.tableNumber}<br/>
       direcion:{ordenes.address}

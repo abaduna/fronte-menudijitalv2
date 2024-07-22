@@ -35,8 +35,8 @@
 .modal{
   position: fixed;
   
-  width: 600px;
-  height: 200px;
+  width: 90%;
+  height: 100vh;
   z-index: 10;
   background-color: rgb(236, 236, 236);
   
@@ -44,4 +44,9 @@
 .finish{
   position: fixed;
   
+}
+.modalBody{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

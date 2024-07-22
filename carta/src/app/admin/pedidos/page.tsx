@@ -23,6 +23,7 @@ export interface ordenes {
 export default function Page() {
   const { getData, postOrdenes } = useFetch();
   const [ordenes, setOrdenes] = useState<ordenes[]>([]);
+  const [ordene, setOrdene] = useState<ordenes>();
   const [id_orden, setId_orden] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [idOrdenes, setIdOrden] = useState<bigint[]>([]);
@@ -42,13 +43,14 @@ export default function Page() {
     setId_orden(id);
     setIsOpen(false);
   };
-  const aceptPediddobtn = (id: number) => {
+  const aceptPediddobtn = (orden: ordenes) => {
+    setOrdene(orden)
     const postAceptar = async () => {
       try {
-        const res = await getData(`api/allordenes/${id}`);
+        const res = await getData(`api/allordenes/${orden.id_orden}`);
         setProductos(res?.data)
         console.log('productos', productos)
-        //await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+        //await postOrdenes({}, `api/ordenes/aceptados/${orden.id_orden}`);
       } catch (error) {}
     };
     setTimeout(() => {
@@ -58,10 +60,11 @@ export default function Page() {
     postAceptar();
     getDatas();
   };
-  const aceptPediddo = async (id: number) => {
+  const aceptPediddo = async (orden: ordenes) => {
+    setOrdene(orden)
     const postAceptar = async () => {
       try {
-        const res = await getData(`api/allordenes/${id}`);
+        const res = await getData(`api/allordenes/${orden.id_orden}`);
         setProductos(res?.data)
         console.error('productos', productos)
         let productosStr = "";
@@ -83,7 +86,7 @@ gracias por comprar
         const whatsappLink = `https://api.whatsapp.com/send?phone=${formattedPhoneNumber}&text=${encodeURIComponent(
           mensaje
         )}`;
-       // await postOrdenes({}, `api/ordenes/aceptados/${id}`);
+       // await postOrdenes({}, `api/ordenes/aceptados/${orden.id_orden}`);
        // window.open(whatsappLink, "_blank");
       } catch (error) {
         console.log("error", error);
@@ -100,8 +103,12 @@ console.log('productos', productos)
   },[productos])
   const componentRef = useRef<HTMLDivElement | null>(null);
   const handlePrint = useReactToPrint({content: () => componentRef.current});
+  const handlerOrden=(orden:ordenes)=>{
+    
+  }
   return (
     <>
+    {ordene &&<Print  productos={productos} ordenes={ordene} componentRef={componentRef}/> }
     
       <Modal
         isOpen={isOpen}
@@ -132,14 +139,14 @@ console.log('productos', productos)
                   </button>
                 </td>
                 <td>
-                <Print  productos={productos} ordenes={orden} componentRef={componentRef}/>
+                
                   {orden.tableNumber === "Pedido" && (
-                    <button onClick={() => aceptPediddobtn(orden.id_orden)}>
+                    <button onClick={() => aceptPediddobtn(orden)}>
                       Aceptar
                     </button>
                   )}
                   {orden.tableNumber !== "Pedido" && (
-                    <button onClick={() => aceptPediddo(orden.id_orden)}>
+                    <button onClick={() => aceptPediddo(orden)}>
                       Aceptar
                     </button>
                   )}
